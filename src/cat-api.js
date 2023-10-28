@@ -8,11 +8,18 @@ const instance = axios.create({
 
 function fetchBreeds() {
   return instance.get('/breeds')
-  .then((resp) =>  resp.data);
+    .then((resp) => 
+      
+      resp.data
+    );
 }
 
 function fetchCatByBreed(breedId) {
-  
+  return instance.get(`images/search?breed_ids=${breedId}`)
+    .then((resp) => {
+      // console.log(resp);
+return resp.data[0]
+    });
 }
 
 export { fetchBreeds, fetchCatByBreed };
