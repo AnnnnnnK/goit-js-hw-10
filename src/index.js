@@ -1,4 +1,6 @@
 import { fetchBreeds, fetchCatByBreed } from "./cat-api.js"
+import SlimSelect from 'slim-select';
+import 'slim-select/dist/slimselect.css';
 
 const select = document.querySelector('.breed-select');
 const loader = document.querySelector('.loader');
@@ -7,16 +9,27 @@ const catInfo = document.querySelector('.cat-info');
 
 loader.classList.add('hidden');
 error.classList.add('hidden');
-// select.classList.toggle('hidden');
+select.classList.toggle('hidden');
 
-window.addEventListener("load", (event) => {
-    setTimeout(() => select.classList.remove('hidden'),5000)
-    // select.classList.remove('hidden');
-});
+
+fetchBreeds()
+    .then(arr => {
+       const markup = arr.map(({id, name}) => `<option value="${id}">${name}</option>`)
+        select.innerHTML = markup;
+        select.classList.toggle('hidden');
+        loader.classList.toggle('hide');
+        new SlimSelect({ select: select });
+    })
+    .catch(err => console.log(err))
+
+
+
 select.addEventListener('change', onChangeSelect);
 
 function onChangeSelect(evt) {
     loader.classList.remove("hidden");
+    select.classList.toggle('hidden');
+    catInfo.classList.toggle("hidden");
     const catId = evt.target.value;
     fetchCatByBreed(catId)
         .then(data => {
@@ -24,11 +37,13 @@ function onChangeSelect(evt) {
             
             const markup =
                 `<img class="cat-img" src="${data.url}" alt="${name}">
-        <h1 class="cat-title">${name}</h1>
-        <p class="cat-desc">${description}</p>
-        <p class="cat-temperament">${temperament}</p>`;
+               <div class="cat-container"> <h1 class="cat-title">${name}</h1>
+                <p class="cat-desc">${description}</p>
+                <p class="cat-temperament">${temperament}</p> </div>`;
+            
             loader.classList.add("hidden");
-            // select.classList.toggle('hidden');
+            select.classList.toggle('hidden');
+            catInfo.classList.toggle("hidden");
             catInfo.innerHTML = markup;
            
         })
@@ -37,23 +52,3 @@ function onChangeSelect(evt) {
 
 
 
-fetchBreeds()
-    .then(arr => {
-       const markup = arr.map(({id, name}) => `<option value="${id}">${name}</option>`)
-        select.innerHTML = markup;
-//         loader.classList.toggle('hidden');
-//   select.classList.toggle('hidden');
-}).catch(err => console.log(err))
-
-
-function hideLoading() {
-    loader.classList.add("hidden");
-
-    setTimeout(() => {
-        loader.classList.remove("hidden");
-    }, 5000);
-}
-
-function displayLoading() {
-    loader.classList.remove("hidden");
-}

@@ -1,5 +1,6 @@
 .loader {
     position: relative;
+    margin: 300px auto;
     width: 100px;
     height: 100px;
 }
@@ -18,7 +19,7 @@
 }
 
 .loader:after {
-    box-shadow: 0 2px 0 #FF3D00 inset;
+    box-shadow: 0 2px 0 #4d0000 inset;
     animation: rotate 2s linear infinite;
 }
 
@@ -26,8 +27,28 @@
     0% {
         transform: rotate(0)
     }
-
+    
     100% {
         transform: rotate(360deg)
     }
+}
+
+.cat-img {
+    display: flex;
+    margin: 0 auto;
+    margin-top: 50px;
+
+    width: 700px;
+    height: 500px;
+}
+.cat-desc {
+width: 1000px;
+}
+
+.cat-container{
+    display: flex;
+    
+    margin: 0 auto;
+    flex-direction: column;
+    align-items: center;
 }

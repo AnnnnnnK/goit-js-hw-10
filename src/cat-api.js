@@ -16,10 +16,7 @@ function fetchBreeds() {
 
 function fetchCatByBreed(breedId) {
   return instance.get(`images/search?breed_ids=${breedId}`)
-    .then((resp) => {
-      // console.log(resp);
-return resp.data[0]
-    });
+    .then(resp => resp.data[0]);
 }
 
 export { fetchBreeds, fetchCatByBreed };
