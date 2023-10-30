@@ -52,3 +52,10 @@ width: 1000px;
     flex-direction: column;
     align-items: center;
 }
+
+.error{
+    display: inline;
+    font-size: large;
+    color: #b30000;
+    margin: 500px;
+}

@@ -1,15 +1,15 @@
 import { fetchBreeds, fetchCatByBreed } from "./cat-api.js"
 import SlimSelect from 'slim-select';
 import 'slim-select/dist/slimselect.css';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 const select = document.querySelector('.breed-select');
 const loader = document.querySelector('.loader');
 const error = document.querySelector('.error');
 const catInfo = document.querySelector('.cat-info');
 
-loader.classList.add('hidden');
 error.classList.add('hidden');
-select.classList.toggle('hidden');
+select.classList.add('hidden');
 
 
 fetchBreeds()
@@ -17,19 +17,23 @@ fetchBreeds()
        const markup = arr.map(({id, name}) => `<option value="${id}">${name}</option>`)
         select.innerHTML = markup;
         select.classList.toggle('hidden');
-        loader.classList.toggle('hide');
+        loader.classList.toggle('hidden');
         new SlimSelect({ select: select });
     })
-    .catch(err => console.log(err))
+    .catch(errorNotify)
 
 
 
 select.addEventListener('change', onChangeSelect);
 
 function onChangeSelect(evt) {
-    loader.classList.remove("hidden");
+
+    loader.classList.toggle('hidden');
     select.classList.toggle('hidden');
-    catInfo.classList.toggle("hidden");
+    error.classList.add('hidden');
+
+    catInfo.classList.toggle('hidden');
+
     const catId = evt.target.value;
     fetchCatByBreed(catId)
         .then(data => {
@@ -41,14 +45,19 @@ function onChangeSelect(evt) {
                 <p class="cat-desc">${description}</p>
                 <p class="cat-temperament">${temperament}</p> </div>`;
             
-            loader.classList.add("hidden");
+            loader.classList.add('hidden');
             select.classList.toggle('hidden');
             catInfo.classList.toggle("hidden");
             catInfo.innerHTML = markup;
            
         })
-    
+    .catch(errorNotify)
 }
 
+function errorNotify() {
+  loader.classList.toggle('hidden');
+  error.classList.remove('hidden');
+  return Notify.failure('Oops! Something went wrong! Try reloading the page!');
+}
 
 
