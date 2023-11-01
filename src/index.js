@@ -28,6 +28,7 @@ select.addEventListener('change', onChangeSelect);
 
 function onChangeSelect(evt) {
 
+    catInfo.innerHTML = '';
     loader.classList.toggle('hidden');
     select.classList.toggle('hidden');
     error.classList.add('hidden');
