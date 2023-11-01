@@ -27,7 +27,6 @@ fetchBreeds()
 select.addEventListener('change', onChangeSelect);
 
 function onChangeSelect(evt) {
-
     catInfo.innerHTML = '';
     loader.classList.toggle('hidden');
     select.classList.toggle('hidden');
@@ -49,8 +48,7 @@ function onChangeSelect(evt) {
             loader.classList.add('hidden');
             select.classList.toggle('hidden');
             catInfo.classList.toggle("hidden");
-            catInfo.innerHTML = markup;
-           
+            catInfo.innerHTML = markup;   
         })
     .catch(errorNotify)
 }
